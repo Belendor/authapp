@@ -1,7 +1,16 @@
 import Head from "next/head";
 import Layout from "../layout/layout";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+
 export default function Login() {
+  async function handleGitLabSignin() {
+    signIn("gitlab", { callbackUrl: "http://localhost:3000" });
+  }
+
+  async function handleCredentialsSignin() {
+    await signIn("credentials", { callbackUrl: "http://localhost:3000" });
+  }
   return (
     <Layout>
       <Head>
@@ -25,13 +34,20 @@ export default function Login() {
           </div>
         </form>
         <div className="input-button">
-          <button type="submit">Login</button>
+          <button onClick={handleCredentialsSignin} type="submit">
+            Login
+          </button>
         </div>
         <div className="input-button">
-          <button type="submit">Sign in with GitLab</button>
+          <button type="submit" onClick={handleGitLabSignin}>
+            Sign in with GitLab
+          </button>
         </div>
         <p className="text-center text-gray-400">
-            Don't have an account? <Link legacyBehavior href={"/register"}><a className="text-blue-700">Sign Up</a></Link>
+          Don't have an account?{" "}
+          <Link legacyBehavior href={"/register"}>
+            <a className="text-blue-700">Sign Up</a>
+          </Link>
         </p>
       </section>
     </Layout>
